@@ -51,7 +51,7 @@ DSYM := $(shell find . $(IGNORE_SUBPROJECTS) -name "*.dSYM")
 # Each module will add to these
 PROGRAMS :=
 TESTS	 :=
-PHONYS   :=
+PHONYS   := $(PHONYS)
 
 # Use mindepth to avoid reincluding top level module.mk that was included at
 # the start.
