@@ -53,9 +53,9 @@ PROGRAMS :=
 TESTS	 :=
 PHONYS   :=
 
-# Note the module.mk from the top project directory should be the first one to
-# be included. This hence relies on `find`'s preorder search behaviour
-include $(shell find . $(IGNORE_SUBPROJECTS) -name "module.mk")
+# Use mindepth to avoid reincluding top level module.mk that was included at
+# the start.
+include $(shell find . -mindepth 2 $(IGNORE_SUBPROJECTS) -name "module.mk")
 
 -include $(DEPS)
 
