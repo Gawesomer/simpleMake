@@ -28,7 +28,7 @@
 # - Submodules are built in `all` and cleaned in `clean`. They also have
 #   individual build and clean targets; `submodule` and `clean-submodule`
 
-INCLUDEDIRS :=
+-include module.mk
 
 INCLUDES    := $(addprefix -I , $(INCLUDEDIRS))
 
@@ -40,13 +40,13 @@ RM	 := rm -rf
 
 # Make sure to escape the `$`
 SUBPROJECTS := $(shell git submodule status | awk '{print $$2}')
-PREFIXEDSUBPROJECTS := $(addprefix ./, $(SUBPROJECTS))
+IGNORE_SUBPROJECTS := $(SUBPROJECTS:%=-not -path "./%/*")
 
 # Ignore subprojects
-SRCS := $(shell find . -path $(PREFIXED_SUBPROJECTS) -prune -false -o -name "*.c")
+SRCS := $(shell find . $(IGNORE_SUBPROJECTS) -name "*.c")
 OBJS := $(SRCS:%.c=%.o)
 DEPS := $(OBJS:%.o=%.d)
-DSYM := $(shell find . -path $(PREFIXED_SUBPROJECTS) -prune -false -o -name "*.dSYM")
+DSYM := $(shell find . $(IGNORE_SUBPROJECTS) -name "*.dSYM")
 
 # Each module will add to these
 PROGRAMS :=
@@ -55,7 +55,7 @@ PHONYS   :=
 
 # Note the module.mk from the top project directory should be the first one to
 # be included. This hence relies on `find`'s preorder search behaviour
-include $(shell find . -path $(PREFIXED_SUBPROJECTS) -prune -false -o -name "module.mk")
+include $(shell find . $(IGNORE_SUBPROJECTS) -name "module.mk")
 
 -include $(DEPS)
 
