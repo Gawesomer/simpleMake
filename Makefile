@@ -35,7 +35,7 @@ INCLUDES    := $(addprefix -I , $(INCLUDEDIRS))
 CC	 := gcc
 CFLAGS	 := -std=gnu11 -g -ggdb3 -Wall -Wextra -Werror -pedantic
 CPPFLAGS := $(INCLUDES) -MMD -MP
-ARFLAGS  := rv
+ARFLAGS  := rvU
 RM	 := rm -rf
 
 # Make sure to escape the `$`
